@@ -1,0 +1,82 @@
+{
+	"info": {
+		"_postman_id": "dc1531bc-82ff-42fc-b089-44c9c5e12c05",
+		"name": "Amazon-S3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Atualizar-Parametros-Arquivo-S3",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lista-parametros\": [\r\n        {\"propertie-name\":\"Propriedade1\", \"propertie-value\":\"true\"},\r\n        {\"propertie-name\":\"Propriedade2\", \"propertie-value\":\"false\"},\r\n        {\"propertie-name\":\"Propriedade3\", \"propertie-value\":\"false\"},\r\n        {\"propertie-name\":\"Propriedade4\", \"propertie-value\":\"true\"},\r\n        {\"propertie-name\":\"Propriedade5\", \"propertie-value\":\"true\"},\r\n        {\"propertie-name\":\"Propriedade6\", \"propertie-value\":\"false\"}\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/toggle-properties/{{bucketName}}/{{fileName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"toggle-properties",
+						"{{bucketName}}",
+						"{{fileName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar-Parametros-Arquivo-S3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/toggle-properties/{{bucketName}}/{{fileName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"toggle-properties",
+						"{{bucketName}}",
+						"{{fileName}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar-Parametro-S3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/toggle-properties/{{bucketName}}/{{fileName}}/{{propertieName}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"toggle-properties",
+						"{{bucketName}}",
+						"{{fileName}}",
+						"{{propertieName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

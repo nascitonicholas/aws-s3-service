@@ -6,12 +6,10 @@ import br.com.aws.s3.application.ports.in.AtualizarArquivoExistentePortIn;
 import br.com.aws.s3.application.ports.out.AmazonS3PortOut;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.Optional;
 
 public class AtualizarArquivoExistente implements AtualizarArquivoExistentePortIn {
 
-    private final String ATRIBUICAO = "=";
-    private final String FINAL_LINHA = ";";
     private final AmazonS3PortOut amazonS3PortOut;
 
     public AtualizarArquivoExistente(AmazonS3PortOut amazonS3PortOut) {
@@ -19,21 +17,17 @@ public class AtualizarArquivoExistente implements AtualizarArquivoExistentePortI
     }
 
     @Override
-    public void atualizarArquivoExistente(PropertiesConfig properties, List<Properties> file) {
-        properties.getList().parallelStream().forEach(item ->
-                file.forEach(f -> {
-                        if(f.getPropertieName().equalsIgnoreCase(item.getPropertieName())) {
-                            f.setValue(item.getValue());
-                        }
-                })
-        );
-        String arquivoAtualizado = gerarArquivo(file);
-        amazonS3PortOut.uploadNovoArquivo(arquivoAtualizado.getBytes());
-    }
-
-    private String gerarArquivo(List<Properties> file) {
-        AtomicReference<String> newFile = null;
-        file.forEach(f-> newFile.set(newFile.get() + f.getPropertieName() + ATRIBUICAO + f.getValue() + FINAL_LINHA));
-        return newFile.get();
+    public void atualizarArquivoExistente(PropertiesConfig propertiesRequest, List<Properties> fileProperties) {
+        propertiesRequest.getList().parallelStream().forEach(item -> {
+                Optional<Properties> p = fileProperties.stream().filter(f -> item.getPropertieName().equalsIgnoreCase(f.getPropertieName())).findFirst();
+                if(p.isPresent()) {
+                    fileProperties.stream()
+                            .filter(f -> item.getPropertieName().equalsIgnoreCase(f.getPropertieName()))
+                            .forEach(f -> f.setValue(item.getValue()));
+                } else {
+                    fileProperties.add(new Properties(item.getPropertieName(), item.getValue()));
+                }
+        });
+        amazonS3PortOut.uploadNovoArquivo(propertiesRequest.getBucketName(), propertiesRequest.getFileName(), fileProperties);
     }
 }

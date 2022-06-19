@@ -3,6 +3,7 @@ package br.com.aws.s3.application.adapters.inbound.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,16 +14,15 @@ import java.util.List;
 public class Data {
 
     @JsonProperty("lista-parametros")
-    private List<Properties> list;
+    private List<Properties> list = new ArrayList<>();
 
     @Getter
     @Setter
-    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public class Properties {
+    public static class Properties {
         @JsonProperty("propertie-name")
-        private String propertie;
+        private String propertieName;
         @JsonProperty("propertie-value")
         private String value;
     }

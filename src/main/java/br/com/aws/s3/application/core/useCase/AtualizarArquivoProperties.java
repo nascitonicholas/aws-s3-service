@@ -25,13 +25,13 @@ public class AtualizarArquivoProperties implements AtualizarArquivoPortIn {
     }
 
     @Override
-    public Void atualizarArquivoProperties(PropertiesConfig properties) {
-        List<Properties> file = buscarArquivoPortIn.buscaArquivoPorNome(properties.getBucketName(), properties.getFileName());
+    public Void atualizarArquivoProperties(PropertiesConfig propertiesRequest) {
+        List<Properties> file = buscarArquivoPortIn.buscaArquivoPorNome(propertiesRequest.getBucketName(), propertiesRequest.getFileName());
         if(Objects.nonNull(file) && !file.isEmpty()) {
-            atualizarArquivoExistentePortIn.atualizarArquivoExistente(properties, file);
+            atualizarArquivoExistentePortIn.atualizarArquivoExistente(propertiesRequest, file);
             return null;
         }
-        criarNovoArquivoPortIn.criaNovoArquivo(properties);
+        criarNovoArquivoPortIn.criaNovoArquivo(propertiesRequest);
         return null;
     }
 

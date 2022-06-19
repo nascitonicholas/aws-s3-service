@@ -4,6 +4,14 @@ public class Properties {
     private String propertieName;
     private String value;
 
+    public Properties() {
+    }
+
+    public Properties(String propertieName, String value) {
+        this.propertieName = propertieName;
+        this.value = value;
+    }
+
     public String getPropertieName() {
         return propertieName;
     }

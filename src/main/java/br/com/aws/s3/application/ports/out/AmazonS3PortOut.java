@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface AmazonS3PortOut {
     List<Properties> buscaArquivoPorNome(String bucketName, String fileName);
-    void uploadNovoArquivo(byte[] bytes);
+    void uploadNovoArquivo(String bucketName, String fileName, List<Properties> file);
 }
